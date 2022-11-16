@@ -1,14 +1,16 @@
 import Amadeus from 'amadeus';
+import express from 'express'
+import { CLIENT_ID, CLIENT_SECRET } from './config.js';
 
-import { CLIENT_ID, CLIENT_SECRET } from './config';
-
-export const router = express.Router(); //===> require ("express").Router
+ const router = express.Router(); //===> require ("express").Router
 
 const API = `api`;
 const amadeus = new Amadeus({
-  client_id: CLIENT_ID,
-  client_secret: CLIENT_SECRET,
+  clientId: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
 });
+
+
 
 router.get(`/${API}/airports`, async (req, res) => {
   const { page, subType, keyword } = req.query;
@@ -27,3 +29,6 @@ router.get(`/${API}/airports`, async (req, res) => {
     await res.json(err);
   }
 });
+
+
+export default router;

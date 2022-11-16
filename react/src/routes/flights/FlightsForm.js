@@ -20,7 +20,7 @@ const debounceLocalData = useCallback(debounce(setKeyword, 1000),[]);
 
 useEffect(() =>{
   debounceLocalData(search);
-  console.log(options);
+ 
 }, [search]);
 
    useEffect(() =>{
@@ -55,7 +55,7 @@ useEffect(() =>{
       <div className={classes.main}>
         <div className={classes.radio}>
           <div>
-            <input type="radio" value="roundtrip" name="trip" /> Roundtrip
+            <input type="radio" value="roundtrip" defaultChecked name="trip" /> Roundtrip
           </div>
           <div>
             <input type="radio" value="one way" name="trip" /> One way
