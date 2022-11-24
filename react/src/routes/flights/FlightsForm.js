@@ -131,7 +131,6 @@ const FlightsForm = props => {
             <input
               autoComplete='off'
               id="from"
-             
               onChange={inputHandler}
               defaultValue="LONDON"
               name="LON"
@@ -147,7 +146,6 @@ const FlightsForm = props => {
             <input
               autoComplete='off'
               id="to"
-              
               onChange={inputHandler}
               defaultValue="MELBOURNE"
               name="MEL"
