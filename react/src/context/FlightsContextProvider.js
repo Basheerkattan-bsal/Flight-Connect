@@ -1,15 +1,22 @@
-import React, {useState} from "react";
+import React, {useReducer} from "react";
 import { FlightsContext } from "./FlightsContext";
+import {initialGeoState, geoReducer} from './Reducer';
 
 
-const FlightsProvider = (props)=>{
- const  [offers, setOffers]= useState(false)
+function FlightsContextProvider({children}) {
+
+const [state, dispatch] = useReducer(geoReducer, initialGeoState);
+
+
 return (
-    <FlightsContext.Provider value={[offers, setOffers]}>
-        {props.children}
+    <FlightsContext.Provider value={[state, dispatch]}>
+        {children}
+
+
     </FlightsContext.Provider>
 )
+
 }
 
 
-export default FlightsProvider;
+export default FlightsContextProvider;

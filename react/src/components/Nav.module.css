@@ -2,15 +2,19 @@ nav {
   display: flex;
   justify-content: left;
   padding-left: 2rem;
-  background-color: #ece5c77b;
+  position: fixed;
+  top: 27rem;
+  width: 100%;
+ /*   background-color: #ece5c77b; */ 
 }
 
-.nav{
+ /* .nav{
     background-color: #ece5c77b;
-}
+}  */
 
 .anchor,
 .active {
+  box-shadow: 0 0px 3px inset #354259;
   text-decoration: none;
   padding: 0.7rem;
   margin: 0rem 0.2rem;
@@ -21,7 +25,7 @@ nav {
 
 .anchor:hover,
 .anchor:active {
-  background-color: #ece5c7;
+   background-color: #ece5c7; 
   color: #354259;
 }
 

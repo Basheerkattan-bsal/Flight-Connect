@@ -12,25 +12,26 @@ import { getAmadeusData } from "../../api/amadeus.api";
 import DropDown from "./DropDown.js";
 import classes from "./FlightsForm.module.css";
 import { getSearchData } from "../../api/search.api";
+import { getActivities } from "../../api/activities.api";
 import { FlightsContext } from "../../context/FlightsContext";
+//import Button from "../../components/Button";
 
 const FlightsForm = props => {
   /*  const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState(''); */
-  const [offers, setOffers] = useContext(FlightsContext);
+  const [state, dispatch] = useContext(FlightsContext);
   const [search, setSearch] = useState("");
-
   const [options, setOptions] = useState([]);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [oneWay, setOneWay] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const names = options.map(i => ({ type: i.subType, name: i.name }));
-
+  /*   const names = options.map(i => ({ type: i.subType, name: i.name }));
+   */
   const debounceLocalData = useCallback(debounce(setKeyword, 1000), []);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const FlightsForm = props => {
   }, [search]);
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const { out, source } = getAmadeusData({
       ...props.search,
       page: 0,
@@ -50,12 +51,13 @@ const FlightsForm = props => {
         if (!res.data.code) {
           setOptions(res.data.data);
         }
-        setLoading(false);
+        //setLoading(false);
       })
       .catch(err => {
+        console.log(err);
         axios.Cancel(err);
         setOptions([]);
-        setLoading(false);
+        //   setLoading(false);
       });
     return () => {
       source.cancel();
@@ -63,10 +65,10 @@ const FlightsForm = props => {
   }, [keyword]);
 
   // testing the api
-
+  /*  
   const { city, airport } = props.search;
 
-  const label =
+ const label =
     city && airport
       ? "City and Airports"
       : city
@@ -74,7 +76,7 @@ const FlightsForm = props => {
       : airport
       ? "Airports"
       : "";
-
+ */
   const inputHandler = e => {
     e.preventDefault();
 
@@ -107,23 +109,50 @@ const FlightsForm = props => {
     }
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     const inputFrom = document.getElementById("from");
     const inputTo = document.getElementById("to");
     const dateOfDeparture = document.getElementById("departureDate");
     const dateOfReturn = document.getElementById("returnDate");
-    console.log(dateOfReturn.value);
 
-    const out = getSearchData({
+    await getSearchData({
       originCode: inputFrom.name,
       destinationCode: inputTo.name,
       dateOfDeparture: dateOfDeparture.value,
       dateOfReturn: dateOfReturn.value,
+    }).then(result => {
+      setOffers(result.data.data);
     });
-    out.then(result => {
-      setOffers(result);
+
+    await getActivities({
+      latitude: state.latitude,
+      longitude: state.longitude,
+    }).then(result => {
+      setActivities(result.data.data);
     });
-    navigate("/flights");
+  };
+
+  const [check, setCheck] = useState(false);
+  useEffect(() => {
+    if (check) {
+      navigate("/flights");
+    } else {
+      setCheck(true);
+    }
+  }, [state.activities]);
+
+  const setOffers = async value => {
+    await dispatch({
+      type: "setOffers",
+      offers: value,
+    });
+  };
+
+  const setActivities = async value => {
+    await dispatch({
+      type: "setActivities",
+      activities: value,
+    });
   };
 
   //setting default date
