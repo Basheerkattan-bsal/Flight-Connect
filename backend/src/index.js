@@ -27,7 +27,7 @@ const PORT = 1338;
 //===> Using the packages
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*", exposedHeaders: ['token'] }));
 
 //===> Multer
 
@@ -54,7 +54,6 @@ app.use("/users", upload.single("image"), userRoute);
 //===> flights route
 
 app.use('/flights', flightRoute)
-
 //===> Applying handler for API
 
 app.use("/", autocompRoute);

@@ -9,10 +9,12 @@
   margin: auto;
   width: 100%; 
   background-color: transparent;
+  z-index: 100;
 }
 .headerText {
   background-color: transparent;
   margin-right: 1rem;
+  z-index: 200;
 }
 .container{
   display: flex;
@@ -20,6 +22,8 @@
   background-color: transparent;
   z-index: 100;
   width: 100%;
+  position: fixed;
+  top: 0;
 }
 
 .logo {
@@ -34,20 +38,4 @@
   margin-left: 1rem;
   color: white;
 }
-
-button {
-  margin-top: 1rem;
-  cursor: pointer;
-  font: inherit;
-  border: none;
-  background-color: #354259;
-  color: white;
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  
-}
-
-.user{
-  width: 5vw
-}
+ 
