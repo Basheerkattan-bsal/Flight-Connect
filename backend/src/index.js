@@ -10,6 +10,7 @@ import searchRoute from "./SearchRoute.js";
 import airportRoute from "./airportRoute.js";
 import dealsRoute from "./dealsRoute.js";
 import activityRoute from "./activityRoute.js";
+import googleRoute from './googleRoute.js'
 
 //===> flights routes
 import flightRoute from '../routes/flightsRoute.js'
@@ -33,11 +34,11 @@ app.use(cors({ origin: "*", exposedHeaders: ['token'] }));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let fullPath = "./upload/";
+    let fullPath = "./upload";
     cb(null, fullPath);
   },
   fileName: function (req, file, cb) {
-    let fileName = Date.now() + " " + file.originalName;
+    let fileName = Date.now() + "_" + file.originalname;
     cb(null, fileName);
   },
 });
@@ -61,9 +62,10 @@ app.use("/", searchRoute);
 app.use("/", airportRoute);
 app.use("/", dealsRoute);
 app.use("/", activityRoute);
+app.use("/", googleRoute);
 
 //===> Static files
-
+app.use(express.static('upload'))
 app.use(express.static("../react/build"));
 
 app.get("/", (req, res) => {
