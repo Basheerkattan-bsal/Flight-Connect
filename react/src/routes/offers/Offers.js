@@ -7,11 +7,10 @@ import classes from "./Offers.module.css";
 import Activities from "./Activities";
 import { useNavigate } from "react-router";
 
-
-const Offers = (props) => {
+const Offers = props => {
   const [state, dispatch] = useContext(FlightsContext);
   const { offers, activities } = state;
-  
+
   const navigate = useNavigate();
   const inputFrom = document.getElementById("from");
   const inputTo = document.getElementById("to");
@@ -22,30 +21,37 @@ const Offers = (props) => {
     }
   }, []);
 
-  const bookFlight = (e) => {
-    e.preventDefault()
-   
-    if(!state.user){
-     dispatch({
-      type: 'setLogin',
-      login: true
-     })
-    }else{
+  const bookFlight = e => {
+    e.preventDefault();
 
-      fetch('http://localhost:1338/flights', {method: 'POST', headers: {token: localStorage.getItem('token'), 'Content-Type': 'application/json'}, body: JSON.stringify({flight: JSON.stringify(offers[e.target.value]) , userId: state.user._id})})
-      .then(res => res.json())
-      .then(result => {
-        console.log(result);
-        if(result.success){
-          console.log(result);
-          dispatch({
-            type: 'setUser',
-            user: result.data
-          })
-        }
+    if (!state.user) {
+      dispatch({
+        type: "setLogin",
+        login: true,
+      });
+    } else {
+      fetch("http://localhost:1338/flights", {
+        method: "POST",
+        headers: {
+          token: localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          flight: JSON.stringify(offers[e.target.value]),
+          userId: state.user._id,
+        }),
       })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            dispatch({
+              type: "setUser",
+              user: result.data,
+            });
+          }
+        });
     }
-  }
+  };
 
   if (offers.length > 0) {
     return (
@@ -184,19 +190,21 @@ const Offers = (props) => {
               </div>
               <div className={classes.price} key={offer.id}>
                 <h2> {offer.price.total}€</h2>
-              <button value={offer.id} onClick={ bookFlight }>Select</button> 
+                <button value={offer.id} onClick={bookFlight}>
+                  Select
+                </button>
               </div>
             </div>
           );
         })}
       </div>
     );
-  } else if (!offers && state.latitude !== '') {
+  } else if (!offers && state.latitude !== "") {
     return (
       <div>
         <h2>Loading Results</h2>
       </div>
-    )
+    );
   } else if (offers.length === 0) {
     return (
       <div>

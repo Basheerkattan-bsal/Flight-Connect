@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { getDeals } from "../../api/deals.api.js";
 import { FlightsContext } from "../../context/FlightsContext";
-import classes from './Deals.module.css'
+import classes from "./Deals.module.css";
 
 const DealDisplay = props => {
   const [state, dispatch] = useContext(FlightsContext);
@@ -18,12 +18,24 @@ const DealDisplay = props => {
           dateOfDeparture: dateOfDeparture.value,
           dateOfReturn: dateOfReturn.value,
         });
-        console.log('deals', deals)
         if (deals.data[0]) {
-          console.log('if deals', deals.data)
-          localStorage.setItem("deals", JSON.stringify([deals.data[0], deals.data[1], deals.data[2], deals.data[3]]));
-          setDeals([deals.data[0], deals.data[1], deals.data[2], deals.data[3]]);
-        } 
+          console.log("if deals", deals.data);
+          localStorage.setItem(
+            "deals",
+            JSON.stringify([
+              deals.data[0],
+              deals.data[1],
+              deals.data[2],
+              deals.data[3],
+            ])
+          );
+          setDeals([
+            deals.data[0],
+            deals.data[1],
+            deals.data[2],
+            deals.data[3],
+          ]);
+        }
       };
       getData();
     } else if (localStorage.getItem("deals") && !deals) {
@@ -82,9 +94,8 @@ const DealDisplay = props => {
     );
   };
 
-
   return (
-    <div className= {classes.dealsDisplay}>
+    <div className={classes.dealsDisplay}>
       {deals ? <TopDestinations /> : null}
       {deals ? <TopDeals /> : null}
     </div>

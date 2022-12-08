@@ -1,50 +1,83 @@
-import React, { Fragment, useContext, useEffect } from 'react';
-import { FlightsContext } from '../context/FlightsContext';
-import classes from '../routes/offers/Offers.module.css';
-import airPlane from '../media/Airplane-logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { FlightsContext } from "../context/FlightsContext";
+import classes from "../routes/offers/Offers.module.css";
+import airPlane from "../media/Airplane-logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
 
 const Bookmarks = () => {
   const [state, dispatch] = useContext(FlightsContext);
+  const [bookmarks, setBookmarks] = useState([]);
 
   const user = state.user;
-  const bookmarks = state.bookmarks;
+  // const bookmarks = state.bookmarks;
 
-  const deleteBookmark = (e) => {
+  const deleteBookmark = async e => {
     e.preventDefault();
-    console.log(bookmarks);
     const id = e.target.value;
-    console.log(id);
-    fetch(`http://localhost:1338/flights/${id}`, {
-      method: 'DELETE',
-      headers: { token: localStorage.getItem('token') },
+    await fetch(`http://localhost:1338/flights/${id}`, {
+      method: "DELETE",
+      headers: { token: localStorage.getItem("token") },
     })
-       .then(res =>  res.json(), ) 
+      .then(res => res.json())
       .then(result => {
-        console.log(result);
         if (result.success) {
-          dispatch({
-            type: 'setUser',
-            user: result.data,
-          });
+          toast.success("success delete bookmark");
+          setTimeout(() => {
+            dispatch({
+              type: "setUser",
+              user: result.data,
+            });
+          }, 1000);
+        } else {
+          toast.error(JSON.stringify(result.message));
         }
       });
   };
 
+  /*   const setBookmarks = async () => {
+    if (user.flights.length > 0) {
+      const bookmarks = await user.flights.map(flight => {
+        return [JSON.parse(flight.flight), flight._id];
+      });
+      dispatch({
+        type: "setBookmarks",
+        bookmarks: bookmarks,
+      });
+    }
+  };
+  setBookmarks(); */
+
   useEffect(() => {
-    if(user.flights.length > 0){
-    const bookmarks = user.flights.map(flight => {
-     console.log(user.flights);
-      return [JSON.parse(flight.flight), flight._id];
-    
-    });
-    dispatch({
-      type: 'setBookmarks',
-      bookmarks: bookmarks,
-    })};
+    const setBookmarks = async () => {
+      if (user.flights.length > 0) {
+        const bookmark = await user.flights.map(flight => {
+          return [JSON.parse(flight.flight), flight._id];
+        });
+        setBookmarks(bookmark);
+        /*  dispatch({
+        type: "setBookmarks",
+        bookmarks: bookmarks,
+      }); */
+      }
+    };
+    setBookmarks();
   }, [user]);
 
+  /*   useEffect(() => {
+    if (user.flights.length > 0) {
+      const bookmarks = user.flights.map(flight => {
+        return [JSON.parse(flight.flight), flight._id];
+      });
+      console.log(bookmarks);
+      dispatch({
+        type: "setBookmarks",
+        bookmarks: bookmarks,
+      });
+    }
+  }, [user]);
+ */
   /*  return (
     <div className={classes.offers}>
       <div className={classes.offersHeader}>
@@ -53,8 +86,8 @@ const Bookmarks = () => {
   if (bookmarks.length > 0) {
     return (
       <div>
+        <Toaster position="top-center" />
         {bookmarks.map((flight, iFlight) => {
-           console.log(flight);
           return (
             <div key={iFlight} className={classes.mainBox}>
               <div className={classes.singleOffer}>
@@ -92,10 +125,10 @@ const Bookmarks = () => {
 
                         <div className={classes.duration}>
                           <p>
-                            {duration.slice(2, 4)}h{' '}
+                            {duration.slice(2, 4)}h{" "}
                             {duration.slice(5, 7)
                               ? `${duration.slice(5, 7)}m`
-                              : ''}
+                              : ""}
                           </p>
 
                           <div className={classes.timeBox}>
@@ -117,13 +150,13 @@ const Bookmarks = () => {
                           </div>
 
                           {segments.length === 1 ? (
-                            <p style={{ color: 'green' }}>Non-stop</p>
+                            <p style={{ color: "green" }}>Non-stop</p>
                           ) : segments.length === 2 ? (
-                            <p style={{ color: 'blue' }}>
+                            <p style={{ color: "blue" }}>
                               1 stop <span>{segments[0].arrival.iataCode}</span>
                             </p>
                           ) : (
-                            <p style={{ color: 'red' }}>
+                            <p style={{ color: "red" }}>
                               {segments.length - 1} stops
                               {segments.map((stop, stopIndex) => {
                                 if (stopIndex !== 0) {
