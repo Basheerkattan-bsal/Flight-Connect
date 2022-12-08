@@ -1,6 +1,7 @@
 import axios from 'axios'
 import express from "express";
 import { GOOGLE_KEY } from './config.js';
+import googleapi from './googleapi.js'
 
 const router = express.Router();
 
@@ -16,21 +17,26 @@ router.get(`/${API}/activities`, async(req, res) => {
       headers: { }
     };
     const response = await axios(config).catch(err => console.log(err))
-    const activities = response.data
-    // let photos = []
-    // for (let i = 0; i < 2; i++) {
-    //   const config = {
-    //     method: 'get',
-    //     url: `https://maps.googleapis.com/maps/api/place/photo?photo_reference=${activities.results[i].photos[0].photo_reference}&key=${GOOGLE_KEY}`,
-    //     headers: { }
-    //   };
-    //   const response = axios(config).catch(err => console.log(err))
-    //   photos.push(response.data.toDataUrl('image/png'))
-    // }
-    // console.log(photos)
-    //res.send([activities, photos])
-    res.send([activities, []])
+    let activ = response.data.results
+    const activities = activ.filter(act => act.photos)
+
+    const getPhotos = async() => {
+      let photos = []
+      let count = 0 
+      while (count < 6) {
+        const photoReference = activities[count].photos[0].photo_reference
+        const photo = await googleapi.runPlacePhotos(photoReference).catch(err => console.log(err))
+        photos.push([photo])
+        count++
+      }
+      return photos
+    }
+
+     const photos = await getPhotos()
+
+    res.json([activities, photos])
   }catch(err){
+    console.log(err)
     res.json(err)
   }
 });

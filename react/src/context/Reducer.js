@@ -1,14 +1,15 @@
 
 export const initialGeoState = {
-  latitude: '',
-  longitude: '',
+  latitude: '41.296950',
+  longitude: '2.078340',
   offers: false,
   activities: {},
   deals: false,
   user: null,
-  bookmarks: false,
+  bookmarks: [],
   flight: null, 
   login: false,
+
   
   
 }

@@ -4,13 +4,13 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FlightsContext } from "../../context/FlightsContext";
 import airPlane from "../../media/Airplane-logo.png";
 import classes from "./Offers.module.css";
-import ActivityDisplay from "./activityDisplay.js";
+import Activities from "./Activities";
 import { useNavigate } from "react-router";
 
 
 const Offers = (props) => {
   const [state, dispatch] = useContext(FlightsContext);
-  const { offers } = state;
+  const { offers, activities } = state;
   
   const navigate = useNavigate();
   const inputFrom = document.getElementById("from");
@@ -50,7 +50,7 @@ const Offers = (props) => {
   if (offers.length > 0) {
     return (
       <div className={classes.offers}>
-        <ActivityDisplay />
+        {activities.length > 0 ? <Activities /> : null}
 
         <div className={classes.offersHeader}>
           <h2>
@@ -191,6 +191,12 @@ const Offers = (props) => {
         })}
       </div>
     );
+  } else if (!offers && state.latitude !== '') {
+    return (
+      <div>
+        <h2>Loading Results</h2>
+      </div>
+    )
   } else if (offers.length === 0) {
     return (
       <div>
