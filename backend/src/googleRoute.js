@@ -13,6 +13,7 @@ router.get(`/${API}/google/details`, async (req, res) => {
       let details = [];
       let count = 0;
       while (count < places.length) {
+<<<<<<< HEAD
         const detail = await googleapi.runPlaceDetails(places[count]);
         details.push(detail);
         count++;
@@ -25,14 +26,35 @@ router.get(`/${API}/google/details`, async (req, res) => {
     const getPhotos = async () => {
       let photos = [];
       let count = 0;
+=======
+        const detail = await googleapi.runPlaceDetails(places[count])
+        details.push(detail)
+        count++
+      }
+      return details
+    }
+
+    const details = await getDetails()
+      
+    const getPhotos = async() => {
+      let photos = []
+      let count = 0 
+>>>>>>> main
       while (count < details.length) {
         let photos2 = [];
         let count2 = 0;
         while (count2 < details[count].photos.length && count2 < 3) {
+<<<<<<< HEAD
           const photoReference = details[count].photos[count2].photo_reference;
           const photo = await googleapi.runPlacePhotos(photoReference);
           photos2.push(photo);
           count2++;
+=======
+          const photoReference = details[count].photos[count2].photo_reference
+          const photo = await googleapi.runPlacePhotos(photoReference)
+          photos2.push(photo)
+          count2++
+>>>>>>> main
         }
         photos.push(photos2);
         count++;

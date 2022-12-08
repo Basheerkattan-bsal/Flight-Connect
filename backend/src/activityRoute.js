@@ -19,6 +19,7 @@ router.get(`/${API}/activities`, async (req, res) => {
     let activ = response.data.results;
     const activities = activ.filter(act => act.photos);
 
+<<<<<<< HEAD
     const getPhotos = async () => {
       let photos = [];
       let count = 0;
@@ -29,6 +30,16 @@ router.get(`/${API}/activities`, async (req, res) => {
           .catch(err => console.log(err));
         photos.push([photo]);
         count++;
+=======
+    const getPhotos = async() => {
+      let photos = []
+      let count = 0 
+      while (count < 3) {
+        const photoReference = activities[count].photos[0].photo_reference
+        const photo = await googleapi.runPlacePhotos(photoReference).catch(err => console.log(err))
+        photos.push([photo])
+        count++
+>>>>>>> main
       }
       return photos;
     };

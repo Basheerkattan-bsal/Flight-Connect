@@ -21,6 +21,7 @@ const Offers = props => {
     }
   }, []);
 
+<<<<<<< HEAD
   const bookFlight = e => {
     e.preventDefault();
 
@@ -40,6 +41,28 @@ const Offers = props => {
           flight: JSON.stringify(offers[e.target.value]),
           userId: state.user._id,
         }),
+=======
+  const bookFlight = (e) => {
+    e.preventDefault()
+   
+    if(!state.user){
+     dispatch({
+      type: 'setLogin',
+      login: true
+     })
+    }else{
+
+      fetch('http://localhost:1338/flights', {method: 'POST', headers: {token: localStorage.getItem('token'), 'Content-Type': 'application/json'}, body: JSON.stringify({flight: JSON.stringify(offers[e.target.value]) , userId: state.user._id})})
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        if(result.success){
+          dispatch({
+            type: 'setUser',
+            user: result.data
+          })
+        }
+>>>>>>> main
       })
         .then(res => res.json())
         .then(result => {
