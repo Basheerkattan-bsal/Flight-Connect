@@ -29,7 +29,7 @@ const FlightsForm = props => {
   const [oneWay, setOneWay] = useState(false);
   const [keyword, setKeyword] = useState("");
   // const [loading, setLoading] = useState(false);
-
+  const returnDate = document.getElementById("returnDate");
   const navigate = useNavigate();
 
   /*   const names = options.map(i => ({ type: i.subType, name: i.name }));
@@ -113,6 +113,8 @@ const FlightsForm = props => {
   const submitHandler = async () => {
     const inputFrom = document.getElementById("from");
     const inputTo = document.getElementById("to");
+    const inputAdult = document.getElementById("adults");
+    const inputChildren = document.getElementById("children");
     const dateOfDeparture = document.getElementById("departureDate");
     const dateOfReturn = document.getElementById("returnDate");
 
@@ -122,7 +124,16 @@ const FlightsForm = props => {
       destinationCode: inputTo.name,
       dateOfDeparture: dateOfDeparture.value,
       dateOfReturn: dateOfReturn.value,
+      adults:
+        inputAdult.value > 9 ? 9 : inputAdult.value > 0 ? inputAdult.value : 1,
+      children:
+        inputChildren.value > 9
+          ? 9
+          : inputChildren.value > 0
+          ? inputChildren.value
+          : 0,
     }).then(result => {
+      console.log(result);
       setOffers(result.data.data);
     });
 
@@ -130,6 +141,7 @@ const FlightsForm = props => {
       latitude: state.latitude,
       longitude: state.longitude,
     }).then(result => {
+      console.log(result.data);
       setActivities(result.data);
     });
   };
@@ -178,7 +190,17 @@ const FlightsForm = props => {
     );
   }
 
-  const returnDate = document.getElementById("returnDate");
+  const inputAdult = document.getElementById("adults");
+  const inputChildren = document.getElementById("children");
+
+  const babySitter = e => {
+    if (e.target.value > 4 && e.target.id === "adults") {
+      inputAdult.value = 4;
+    }
+    if (e.target.value > 4 && e.target.id === "children") {
+      inputChildren.value = 4;
+    }
+  };
 
   return (
     <Fragment>
@@ -264,12 +286,22 @@ const FlightsForm = props => {
           </div>
           <div>
             <label>Passengers: </label>
-            <input
-              id="passengers"
-              className={classes.info}
-              type="number"
-              placeholder="Passengers"
-            />
+            <div className={classes.passengers}>
+              <input
+                id="adults"
+                className={classes.passengersInput}
+                type="number"
+                placeholder="adults"
+                onChange={babySitter}
+              />
+              <input
+                id="children"
+                className={classes.passengersInput}
+                type="number"
+                placeholder="children"
+                onChange={babySitter}
+              />
+            </div>
           </div>
         </form>
       </div>

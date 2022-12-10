@@ -6,8 +6,14 @@ const router = express.Router();
 const API = `api`;
 
 router.get(`/${API}/offers`, async (req, res) => {
-  const { originCode, destinationCode, dateOfDeparture, dateOfReturn } =
-    req.query;
+  const {
+    originCode,
+    destinationCode,
+    dateOfDeparture,
+    dateOfReturn,
+    adults,
+    children,
+  } = req.query;
 
   if (dateOfReturn === "") {
     try {
@@ -15,7 +21,8 @@ router.get(`/${API}/offers`, async (req, res) => {
         originLocationCode: originCode,
         destinationLocationCode: destinationCode,
         departureDate: dateOfDeparture,
-        adults: "1",
+        adults: adults,
+        children: children,
         max: 20,
       });
       res.json(JSON.parse(response.body));
@@ -29,11 +36,13 @@ router.get(`/${API}/offers`, async (req, res) => {
         destinationLocationCode: destinationCode,
         departureDate: dateOfDeparture,
         returnDate: dateOfReturn,
-        adults: "1",
+        adults: adults,
+        children: children,
         max: 20,
       });
       res.json(JSON.parse(response.body));
     } catch (err) {
+      console.log(err.description);
       res.json(err);
     }
   }
