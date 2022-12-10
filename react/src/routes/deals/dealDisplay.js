@@ -6,7 +6,7 @@ import classes from "./Deals.module.css";
 const DealDisplay = props => {
   const [state, dispatch] = useContext(FlightsContext);
   const { deals } = state;
-  const [check, setCheck] = useState(false)
+  const [check, setCheck] = useState(false);
 
   const dateOfDeparture = document.getElementById("departureDate");
   const dateOfReturn = document.getElementById("returnDate");
@@ -19,11 +19,8 @@ const DealDisplay = props => {
           dateOfDeparture: dateOfDeparture.value,
           dateOfReturn: dateOfReturn.value,
         });
-<<<<<<< HEAD
-=======
-        console.log('deals', deals)
-        setCheck(true)
->>>>>>> main
+        console.log("deals", deals);
+        setCheck(true);
         if (deals.data[0]) {
           console.log("if deals", deals.data);
           localStorage.setItem(

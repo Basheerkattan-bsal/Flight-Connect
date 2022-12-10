@@ -42,7 +42,6 @@ const FlightsForm = props => {
 
   useEffect(() => {
     // setLoading(true);
-<<<<<<< HEAD
     const { out, source } = getAmadeusData({
       ...props.search,
       page: 0,
@@ -57,50 +56,27 @@ const FlightsForm = props => {
         //setLoading(false);
       })
       .catch(err => {
+        console.log(err);
         axios.Cancel(err);
         setOptions([]);
         //   setLoading(false);
-=======
-      const { out, source } = getAmadeusData({
-        ...props.search,
-        page: 0,
-        keyword,
->>>>>>> main
       });
-
-      out
-        .then(res => {
-          if (!res.data.code) {
-            setOptions(res.data.data);
-          }
-          //setLoading(false);
-        })
-        .catch(err => {
-          console.log(err);
-          axios.Cancel(err);
-          setOptions([]);
-          //   setLoading(false);
-        });
-      return () => {
-        source.cancel();
-      };
+    return () => {
+      source.cancel();
+    };
   }, [keyword]);
 
-  
-
-
-
   // testing the api
- // const { city, airport } = props.search;
+  // const { city, airport } = props.search;
 
- // const label =
- //    city && airport
- //      ? "City and Airports"
- //      : city
- //      ? "City"
- //      : airport
- //      ? "Airports"
- //      : "";
+  // const label =
+  //    city && airport
+  //      ? "City and Airports"
+  //      : city
+  //      ? "City"
+  //      : airport
+  //      ? "Airports"
+  //      : "";
 
   const inputHandler = e => {
     e.preventDefault();
