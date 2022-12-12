@@ -1,4 +1,3 @@
-
 .header-txt {
   z-index: 200;
   color: white;
@@ -35,10 +34,9 @@
   text-shadow: 2px 2px 2px white;
 }
 
-.scrollHeader{
+.scrollHeader {
   display: none;
 }
-
 
 .main-display {
   width: 100%;
@@ -51,9 +49,9 @@
   transition: 0.2s linear;
 }
 
-.scrollMain{
+.scrollMain {
   height: 27rem;
-  top: -20rem
+  top: -20rem;
 }
 
 .main-display video {
@@ -70,7 +68,7 @@
   bottom: 0;
 }
 
-.scrollVideo{
+.scrollVideo {
   position: relative;
   bottom: 0px;
 }
@@ -79,6 +77,4 @@
 .scrollMain,
 .scrollVideo {
   transition: 0.2s linear;
-
 }
-
