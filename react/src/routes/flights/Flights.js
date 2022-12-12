@@ -34,12 +34,8 @@ const Flights = props => {
             dataSource={props.dataSource}
           />
         </header>
-        <video
-          className={scrollToggle ? classes.scrollVideo : ""}
-          autoPlay
-          muted
-        >
-          <source src={video} type="video/mp4" />
+        <video className={scrollToggle ? classes.scrollVideo : ''} autoPlay muted>
+          <source  src={video} type="video/mp4" />
         </video>
       </div>
     </Fragment>

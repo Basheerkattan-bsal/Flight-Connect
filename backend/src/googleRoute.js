@@ -42,8 +42,9 @@ router.get(`/${API}/google/details`, async (req, res) => {
 
     const photos = await getPhotos();
 
-    res.json(photos);
+    res.json([details, photos]);
   } catch (err) {
+    console.log(err.description);
     res.json(err);
   }
 });
