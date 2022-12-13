@@ -13,6 +13,7 @@ export default function Login(props) {
       email: e.target.email.value,
       password: e.target.password.value,
     });
+    console.log(data);
     fetch("http://localhost:1338/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,7 +48,6 @@ export default function Login(props) {
     <div className={props.className}>
       <form onSubmit={loginUser}>
         <div>
-          <label>Email:</label>
           <input type="email" id="email" name="email" required></input>
         </div>
         <div>
